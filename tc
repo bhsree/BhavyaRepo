@@ -1,1 +1,32 @@
-This is to check conflicts in git local.
+
+Hi Team,
+
+As part of the recent analysis on pod stability for osqar-qualification-manager in the UAT environment, we identified that the liveness probe configuration had a very low timeout value.
+
+Issue Identified:
+
+- "timeoutSeconds" was set to 1 second
+- Under load conditions, the application response time exceeded this threshold
+- This could potentially lead to false liveness probe failures and unnecessary pod restarts
+
+Fix Applied:
+
+- Updated liveness probe configuration:
+  - "timeoutSeconds": 1 → 5 seconds
+  - "periodSeconds": retained at 10 seconds
+- Applied the change via deployment update, which triggered an automatic rollout
+
+Post-Change Status:
+
+- New pods were successfully created and are in Running state
+- No restarts observed after the change
+- Application health checks are stable
+- Monitoring is currently in progress
+
+Summary:
+The change ensures better tolerance for response delays under load while still allowing timely detection of genuine failures.
+
+Please let me know if any further tuning or validation is required.
+
+Thanks,
+[Your Name]
